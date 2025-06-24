@@ -1,0 +1,372 @@
+* {
+    margin: 0;
+    padding: 0; /* 修正：padding 用像素或无单位，0% 无意义 */
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* 禁止元素拖动 */
+img, button, input, div {
+    -webkit-user-drag: none;
+    -moz-user-drag: none;
+    -ms-user-drag: none;
+    -user-drag: none;
+    pointer-events: auto; /* 保持元素交互性 */
+}
+body{
+    background-color:#f0f4ff;
+    
+}
+.header{
+    display: flex;
+    position: relative;
+    height: 300px;
+    min-width: 100vw; /* 最小宽度撑满视口（避免缩放时父容器收缩）*/
+    
+}
+/* 蓝色背景容器 */
+.deepbg {
+    z-index: 0;
+    background-color: #163dd6; 
+    height: 100px; 
+    width: 100%; /* 撑满父容器宽度 */
+    position: absolute; 
+    top: 40px; /* 垂直居中 */
+    left: 50%; /* 水平居中参考点 */
+    transform: translate(-50%, -50%); /* 最终居中（关键！） */
+    overflow: hidden;
+
+}
+
+.deepbg img{
+    overflow: hidden; /* 隐藏超出容器的图片部分（可选*/
+}
+/* 容器内main的图片start */
+.indexpage {
+    height: 400%; 
+    width: auto; 
+    position: absolute;    
+    right: 50%; 
+    top: -110px; 
+    opacity: 0.75;
+    aspect-ratio: 1800/1012; 
+    
+
+    /* 浮动动画 */
+    animation: float 10s ease-in-out infinite;
+}
+@keyframes float {
+    0%, 100% { /* 起始和结束状态 */
+            transform: translateY(-50px)rotate(-10deg); /* 原始位置 */
+            opacity: 0.5; /* 可选：同步调整透明度增加真实感 */
+        }
+        50% { /* 中间状态 */
+            transform: translateY(5px)rotate(-10deg); /* 向上浮动8px（可调整数值改变幅度） */
+            opacity: 0.75; /* 可选：浮动到顶部时轻微变清晰 */
+        }
+}
+
+/* 背景照片（白色点） */
+.bgpage{
+    width: auto;
+    height: 400%;
+    left: 60%;
+    top: -80%;
+
+    position: absolute;
+    
+}
+/* 底边蓝色线条 */
+.lin{
+    background-color: #163dd6; 
+    height: 10px; 
+    width: 100%;
+    position: relative;
+    top: 80px;
+    filter: blur(0.5px); 
+    
+}
+/*花线图片*/
+.line img{
+    height: 10px;
+    position: relative;
+    bottom: 8px;
+    overflow: hidden;
+}
+
+
+/* 1级图层 */
+.subtitle{
+    background-color: transparent; 
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+
+    
+}
+.subtitle p {
+    font-style: italic;
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
+    color: #fff; 
+    font-size: 70px; 
+    position: relative; 
+    text-align: center; /* 文字居中显示 */
+    margin: 0; /* 清除默认边距 */
+    padding: 0;
+
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+
+    
+}
+ 
+.subtitle p:hover{
+    transform: scale(1.1);
+
+}
+.subtitle p:active{
+    transform-origin: 12dvh;
+    transform: scale(0.5) skewX(-5deg);
+}
+
+
+
+
+
+/* 1. 搜索容器：独立水平居中 + Flex布局 */
+.search-container {
+    width: 90%;          /* 占屏幕宽度90%（自适应） */
+    max-width: 1000px;   /* 最大宽度（控制全屏长度，可调整） */
+    margin: 60px auto 0; /* 60px是顶部间距，auto实现水平居中 */
+    display: flex;       /* 让输入框和按钮并排 */
+    align-items: center; /* 垂直对齐 */
+    gap: 12px;           /* 输入框与按钮的间距（替代之前的定位） */
+}
+/* 2. 输入框：删除错位定位，用Flex填充 */
+.search-input {
+    margin-top: 40px;
+    z-index: 2;
+    flex: 1;            /* 占满容器剩余空间（核心：让输入框随容器居中） */
+    padding: 12px 16px; 
+    background: #f0f4ff; /* 浅蓝背景 */
+    border: 1px solid#163dd6;  /* 立体边框 */
+    border-radius: 10ch;       /* 胶囊圆角，随宽度自适应 */
+    font-size: 16px;
+    outline: none;
+
+    box-shadow: inset 0 2px 4px rgba(22, 61, 214, 0.1); /* 内阴影 */
+}
+/* 3. 搜索按钮：删除错位定位，统一样式 */
+.search-button {
+    margin-top: 40px;
+    padding: 14px 26px;
+    background: #f0f4ff; /* 浅蓝背景 */
+    color: #163dd6;      /* 文字与输入框同色 */
+    border: 2px solid #ffffff; /* 立体边框 */
+    border-radius: 10ch;  /* 中等圆角 */
+    font-size: 16px;
+    font-weight: 500;    /* 加粗文字 */
+    cursor: pointer;
+    box-shadow: inset 0 2px 4px rgba(22, 61, 214, 0.1); /* 内阴影 */
+    transition: all 0.2s ease;
+}
+.search-button:hover {
+background: #e0e9ff; /* 背景变深 */
+box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
+}
+
+
+/* 可拖动的 */
+.draggable {
+    z-index: 100;
+    /* 宽度：最小100px，最大200px，中间按8%视口宽度自适应 */
+    width: clamp(80px, 8vw, 100px);  
+    /* 高度：最小50px，最大100px，中间按4%视口高度自适应 */
+    height: clamp(50px, 4vh, 60px);
+    background: #163dd6;
+    color: white;
+    border-radius: 6.5ch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: move;
+    position: absolute;
+    user-select: none;
+    will-change: transform; /* 提示浏览器优化渲染 */
+    transition: none; /* 关闭默认过渡，由物理模拟控制 */
+}
+
+.draggable p{
+    font-size: 13px;
+    font-style: italic;
+    font-weight: bold;
+    
+    padding: 5px;
+    border-radius: 6.5ch;
+}
+
+
+
+
+/* zhu'ti'zhao'pian */
+
+
+.regionone {
+    background-color: #f0f4ff;
+    height: 250px;
+    width: 90%;
+    max-width: 1500px;
+    margin: 60px auto 0;
+    margin-left: 10%;
+    display: flex;
+
+    position: relative;
+    gap:12px; /* 子元素之间的间距 */
+}
+
+/* art book图片 */
+.title-write{
+    width: 400px;
+    position: absolute; /* 脱离文档流 */
+    bottom: 1; /* 贴容器底部 */
+    left: 44.5%; /* 水平居中 */
+    transform: translateX(-50%); /* 精确居中 */
+    z-index: 0; /* 层级低于其他卡片（其他卡片默认z-index为auto=0） */
+    /* 可根据需要调整具体位置 */
+ 
+
+}
+
+.cardstyle1 {
+    background-color: transparent;
+    height: 100%;
+    width: 30%;
+    max-width: 1000px;
+    border-radius: 16px;
+    border: 2px solid #163dd6;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* 隐藏溢出部分 */
+    position: relative; /* 确保绝对定位元素相对于此容器 */
+    flex-shrink: 0; /* 关键：禁止收缩，避免被挤压 */
+
+
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    box-shadow: 5px 10px 8px rgba(41, 55, 74, 0.1); /* 初始阴影 */
+}
+
+.cardstyle1 p{
+    width: 120% ;
+    height: 120%;
+    font-style: italic;
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
+    color: rgb(255, 255, 255); 
+    font-size: 50px; 
+
+}   
+
+.cardstyle2{
+    margin-left: 25%;
+
+    background-color: transparent;
+    height: 40%;
+    width: 30%;
+    max-width: 1000px;
+    border-radius: 16px;
+    border: 2px solid #fefefe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* 隐藏溢出部分 */
+    position: relative; /* 确保绝对定位元素相对于此容器 */
+    flex-shrink: 0; /* 关键：禁止收缩，避免被挤压 */
+
+
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    box-shadow: 5px 5px 8px rgba(103, 153, 223, 0.1); /* 初始阴影 */
+    align-self: flex-start; /* 关键：贴top部 */
+}
+
+.cardstyle3{
+    margin-left: -45%;
+    background-color: transparent;
+    height: 45%;
+    width: 40%;
+    max-width: 1000px;
+    border-radius: 6.6ch;
+    border: 2px solid #6cc7ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* 隐藏溢出部分 */
+    position: relative; /* 确保绝对定位元素相对于此容器 */
+    flex-shrink: 0; /* 禁止收缩 */
+
+
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* 初始阴影 */
+    align-self: flex-end; /* 关键：贴底部 */
+}
+.cardstyle1:hover ,
+.cardstyle2:hover ,
+.cardstyle3:hover{
+    transform: scale(1.05);
+    filter: blur(0);
+}
+/* 修改图片样式 */
+.cardstyle1 img{
+
+    width: 500px;
+    height: auto;
+    object-fit: cover; /* 关键：覆盖整个容器，可能会裁剪图片 */
+    border-radius: 16px; /* 保持圆角与容器一致 */
+    opacity:0.8;
+
+    transition: transform 0.4s ease-in-out;   
+}
+.cardstyle2 img{
+    width: 600px;
+    height: auto;
+    object-fit: cover; /* 关键：覆盖整个容器，可能会裁剪图片 */
+    object-position: center; /* 图片居中显示 */
+    border-radius: 16px; /* 保持圆角与容器一致 */
+    opacity:0.8;
+
+    transition: transform 0.4s ease-in-out; 
+}
+.cardstyle3 img {
+    margin-right: 100px;
+    margin-top: 30px;
+    width: 500px;
+    height: auto;
+    object-fit: cover; /* 关键：覆盖整个容器，可能会裁剪图片 */
+    border-radius: 16px; /* 保持圆角与容器一致 */
+    opacity:0.8;
+
+    transition: transform 0.4s ease-in-out;    
+}
+.cardstyle1 img:hover,
+.cardstyle2 img:hover,
+.cardstyle3 img:hover{
+    transform: scale(1.05);
+
+    opacity:1;
+
+}
+.cardstyle1:active,
+.cardstyle2:active,
+.cardstyle3:active{
+    
+    transform: scale(0.95);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+
+    
+
