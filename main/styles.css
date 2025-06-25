@@ -191,38 +191,6 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
     border-radius: 25px;
 }
 
-/* 可拖动的 */
-.draggable {
-    z-index: 100;
-    /* 宽度：最小100px，最大200px，中间按8%视口宽度自适应 */
-    width: clamp(80px, 8vw, 100px);  
-    /* 高度：最小50px，最大100px，中间按4%视口高度自适应 */
-    height: clamp(50px, 4vh, 60px);
-    background: #163dd6;
-    color: white;
-    border-radius: 6.5ch;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: move;
-    position: absolute;
-    user-select: none;
-    will-change: transform; /* 提示浏览器优化渲染 */
-    transition: none; /* 关闭默认过渡，由物理模拟控制 */
-}
-
-.draggable p{
-    font-size: 13px;
-    font-style: italic;
-    font-weight: bold;
-    
-    padding: 5px;
-    border-radius: 6.5ch;
-}
-
-
-
-
 /* zhu'ti'zhao'pian */
 .clock-line{
     z-index: 2;

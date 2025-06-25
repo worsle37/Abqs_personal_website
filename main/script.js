@@ -136,3 +136,23 @@ function physicsUpdate() {
 
     requestAnimationFrame(physicsUpdate);
 }
+//////////////////上面是可拖拽//////////////////////////////////
+
+const cardstyleone=document.querySelector(".cardstyleone")
+
+function cardone(url) {
+    //我不行了，这里还要写个放大代码css好累
+    setTimeout(()=>{
+        window.location.href = url; 
+    },300);
+    // 这行代码会让浏览器跳转到指定URL
+}
+
+
+
+
+
+
+
+
+
