@@ -224,13 +224,40 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
 
 
 /* zhu'ti'zhao'pian */
-/* zhu'ti'zhao'pian */
+.clock-line{
+    z-index: 2;
+    top:67.5%;
+    left:64.5%;
+    position: absolute;
+    width: 150px;
+    height: auto;
+    object-fit: none; /* 关键：覆盖整个容器，可能会裁剪图片 */
+    border-radius: none; /* 保持圆角与容器一致 */
+    opacity:0.8;
+    transform: translateY(-50%); /* 垂直居中 */
+    transform-origin: left center; /* 设置旋转原点为左中 */
+
+    transition: transform 0.4s ease-in-out; 
+}
+@keyframes rotate {
+    from {
+        transform: translateY(-50%) rotate(0deg);
+    }
+    to {
+        transform: translateY(-50%) rotate(360deg);
+    }
+}
+
+/* 应用动画 */
+.rotate-animation {
+    animation: rotate 15s linear infinite; /* 5秒完成一次旋转，循环播放 */
+}
 .cardstyle1,
 .cardstyle2,
 .cardstyle3,
 .cardstyle4,
 .cardstyle5,
-.cardstyle6 {
+.cardstyle6{
     max-width: 1000px;
     box-shadow: 10px 10px 0.9px #a7bcf7; /* 初始阴影 */
     display: flex;
@@ -240,6 +267,7 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
     position: relative; /* 确保绝对定位元素相对于此容器 */
     flex-shrink: 0; /* 关键：禁止收缩，避免被挤压 */
     transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+
 }
 
 .regionone,
@@ -251,16 +279,17 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
     margin: 60px auto 0;
     margin-left: 10%;
     display: flex;
-    position: relative;
-    gap: 12px; /* 子元素之间的间距 */
-}
+    
 
+    position: relative;
+    gap:12px; /* 子元素之间的间距 */
+}
 .regiontwo {
     height: 300px;
-}
+}    
 
 /* art book图片 */
-.title-write {
+.title-write{
     width: 400px;
     position: absolute; /* 脱离文档流 */
     bottom: 1; /* 贴容器底部 */
@@ -268,6 +297,8 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
     transform: translateX(-50%); /* 精确居中 */
     z-index: 0; /* 层级低于其他卡片（其他卡片默认z-index为auto=0） */
     /* 可根据需要调整具体位置 */
+ 
+
 }
 
 .cardstyle1 {
@@ -276,29 +307,33 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
     width: 30%;
     border-radius: 16px;
     border: 2px solid #163dd6;
+
 }
 
-.cardstyle1 p {
-    width: 120%;
+.cardstyle1 p{
+    width: 120% ;
     height: 120%;
     font-style: italic;
     font-weight: bold;
     font-family: 'Times New Roman', Times, serif;
-    color: rgb(255, 255, 255);
-    font-size: 50px;
-}
+    color: rgb(255, 255, 255); 
+    font-size: 50px; 
 
-.cardstyle2 {
+}   
+
+.cardstyle2{
     margin-left: 25%;
+
     background-color: transparent;
     height: 40%;
     width: 30%;
     border-radius: 16px;
     border: 2px solid #fefefe;
+
     align-self: flex-start; /* 关键：贴top部 */
 }
 
-.cardstyle3 {
+.cardstyle3{
     margin-left: -45%;
     background-color: transparent;
     height: 45%;
@@ -311,60 +346,36 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
     overflow: hidden; /* 隐藏溢出部分 */
     position: relative; /* 确保绝对定位元素相对于此容器 */
     flex-shrink: 0; /* 禁止收缩 */
+
+
     align-self: flex-end; /* 关键：贴底部 */
 }
-
-/* 修复cardstyle4和5的hover问题 */
-.cardstyle4,
-.cardstyle5 {
-    position: relative;
-    overflow: hidden; /* 允许内容超出容器 */
-}
-
-/* 为三角形卡片添加交互层 */
-.cardstyle4::before,
-.cardstyle5::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10; /* 确保交互层在图片上方 */
-    pointer-events: auto; /* 确保可以响应鼠标事件 */
-}
-
-.cardstyle4::before {
-    clip-path: polygon(0% 0%, 100% 0%, 0% 100%); /* 与卡片形状一致 */
-}
-
-.cardstyle5::before {
-    clip-path: polygon(100% 100%, 0% 100%, 100% 0%); /* 与卡片形状一致 */
-}
-
-/* 调整三角形卡片样式 */
-.cardstyle4 {
-    margin-left: 0%;
-    background-color: transparent;
+/*这里调整两个三角的位置*/
+.cardstyle4{
+    margin-left: 0%; /*这里调整两个三角的位置*/
+    background-color:transparent;
     height: 100%;
     width: 30%;
     border-radius: 5ch;
     border: 2px solid #163dd6;
-    box-shadow: none;
-    clip-path: polygon(0% 0%, 100% 0%, 0% 100%);
-}
 
-.cardstyle5 {
+    box-shadow:none;
+
+    clip-path: polygon(0% 0%, 100% 0%, 0% 100%); /* 三角形路径：顶点(50%顶部)，底边(左右100%底部) */ 
+ 
+}
+.cardstyle5{
     margin-left: -22%;
-    background-color: transparent;
+    background-color:transparent;
     height: 100%;
     width: 30%;
     border-radius: 5ch;
     border: 10px solid #a7bcf7;
-    box-shadow: none;
-    clip-path: polygon(100% 100%, 0% 100%, 100% 0%);
-}
+    
+    box-shadow:none;
 
+    clip-path: polygon(100% 100%, 0% 100%, 100% 0%); /* 三角形路径：顶点(50%顶部)，底边(左右100%底部) */  
+}
 .cardstyle6 {
     margin-left: 15%;
     background-color: transparent;
@@ -372,73 +383,118 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
     width: 30%;
     border-radius: 16px;
     border: 0px solid #ffffff;
+    
 }
-
-/* 修复hover选择器 */
-.cardstyle1:hover,
-.cardstyle2:hover,
-.cardstyle3:hover,
-.cardstyle4:hover,
-.cardstyle5:hover,
-.cardstyle6:hover {
+.cardstyle1:hover ,
+.cardstyle2:hover ,
+.cardstyle3:hover ,
+.cardstyle4:hover ,
+.cardstyle5:hover ,
+.cardstyle6:hover{
     transform: scale(1.05);
     filter: blur(0);
 }
-
 /* 修改图片样式 */
-.cardstyle1 img,
-.cardstyle2 img,
-.cardstyle3 img,
-.cardstyle4 img,
-.cardstyle5 img,
-.cardstyle6 img {
-    width: 100%;
-    height: 100%;
+.cardstyle1 img{
+
+    width: 500px;
+    height: auto;
     object-fit: cover; /* 关键：覆盖整个容器，可能会裁剪图片 */
     border-radius: 16px; /* 保持圆角与容器一致 */
-    opacity: 0.8;
-    transition: transform 0.4s ease-in-out;
-    position: relative; /* 确保图片在交互层下方 */
-    z-index: 5; /* 低于交互层 */
+    opacity:0.8;
+
+    transition: transform 0.4s ease-in-out;   
+}
+.cardstyle2 img{
+    width: 600px;
+    height: auto;
+    object-fit: cover; /* 关键：覆盖整个容器，可能会裁剪图片 */
+    object-position: center; /* 图片居中显示 */
+    border-radius: 16px; /* 保持圆角与容器一致 */
+    opacity:0.8;
+
+    transition: transform 0.4s ease-in-out; 
+}
+.cardstyle3 img {
+    margin-right: 100px;
+    margin-top: 30px;
+    width: 500px;
+    height: auto;
+    object-fit: cover; /* 关键：覆盖整个容器，可能会裁剪图片 */
+    border-radius: 16px; /* 保持圆角与容器一致 */
+    opacity:0.8;
+
+    transition: transform 0.4s ease-in-out;    
+}
+.cardstyle4 img{
+    margin-bottom: 10px;
+    margin-right: 30px;
+    width: 450px;
+    height: auto;
+    object-fit: cover; /* 关键：覆盖整个容器，可能会裁剪图片 */
+    border-radius: 16px; /* 保持圆角与容器一致 */
+    opacity:0.8;
+    filter: grayscale(100%);
+
+
+    transition: transform 0.4s ease-in-out;   
+}
+.cardstyle5 img{
+    margin-top: 15px;
+    margin-left: 200px;
+    width: 666px;
+    height: auto;
+    object-fit: cover; /* 关键：覆盖整个容器，可能会裁剪图片 */
+    border-radius: 16px; /* 保持圆角与容器一致 */
+    opacity:0.8;
+    filter: grayscale(0%);
+
+
+
+    transition: transform 0.4s ease-in-out;   
+}
+.cardstyle6 img{
+
+    width: 470px;
+    height: auto;
+    object-fit: cover; /* 关键：覆盖整个容器，可能会裁剪图片 */
+    border-radius: 16px; /* 保持圆角与容器一致 */
+    opacity:0.8;
+
+    transition: transform 0.4s ease-in-out;   
 }
 
-/* 调整图片位置 */
-.cardstyle4 img {
-    transform: translate(-10%, -5%); /* 使用transform替代margin，保持交互区域一致 */
-}
-
-.cardstyle5 img {
-    transform: translate(10%, -5%); /* 使用transform替代margin，保持交互区域一致 */
-}
-
-/* 修复hover效果 */
-.cardstyle1:hover img,
-.cardstyle2:hover img,
-.cardstyle3:hover img,
-.cardstyle4:hover img,
-.cardstyle5:hover img,
-.cardstyle6:hover img {
+.cardstyle1 img:hover,
+.cardstyle2 img:hover,
+.cardstyle3 img:hover,
+.cardstyle4 img:hover,
+.cardstyle5 img:hover{
     transform: scale(1.05);
-    opacity: 1;
-}
+    filter: grayscale(0%);
+    opacity:1;
+    filter: grayscale(0%);
 
-.cardstyle6:hover img {
-    transform: none; /* 保持原有的none值 */
-}
 
+}
+.cardstyle5 img:hover{
+    filter: grayscale(100%);
+
+}
 .cardstyle1:active,
 .cardstyle2:active,
-.cardstyle3:active {
+.cardstyle3:active{
+    
     transform: scale(0.95);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
 }
 
 .cardstyle4:active,
 .cardstyle5:active,
-.cardstyle6:active {
+.cardstyle6:active{
     transform: scale(0.9);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
 }
+
 
 
 
