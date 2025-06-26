@@ -117,7 +117,7 @@ content {
     height: 10px; 
     width: 100%;
     position: relative;
-    top: 80px;
+    top: 66px;
     filter: blur(0.5px); 
     
 }
@@ -270,6 +270,14 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
 
 }
 
+.regiononepf{
+    z-index: 10;
+    height: 15px;
+    width: 4%;
+    max-width:50px ;
+    background-color: #d625d0;
+  
+}
 .regionone,
 .regiontwo {
     background-color: transparent;
@@ -293,9 +301,9 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
     width: 400px;
     position: absolute; /* 脱离文档流 */
     bottom: 1; /* 贴容器底部 */
-    left: 44.5%; /* 水平居中 */
+    left: 44.9%; /* 水平居中 */
     transform: translateX(-50%); /* 精确居中 */
-    z-index: 0; /* 层级低于其他卡片（其他卡片默认z-index为auto=0） */
+    z-index: 2; /* 层级低于其他卡片（其他卡片默认z-index为auto=0） */
     /* 可根据需要调整具体位置 */
  
 
