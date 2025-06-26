@@ -7,7 +7,6 @@
     -ms-user-select: none;
     user-select: none;
 }
-
 /* 禁止元素拖动 */
 img, button, input, div {
     -webkit-user-drag: none;
@@ -27,6 +26,38 @@ body{
     min-width: 100vw; /* 最小宽度撑满视口（避免缩放时父容器收缩）*/
     
 }
+
+.loader {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: #3498db;
+    animation: spin 1s ease-in-out infinite;
+    z-index: 1000;
+}
+
+@keyframes spin {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* 内容切换动画 */
+content {
+    position: relative;
+    transition: opacity 0.3s ease;
+}
+
+.fade-out {
+    opacity: 0;
+}
+
+
+
 /* 蓝色背景容器 */
 .deepbg {
     z-index: 0;

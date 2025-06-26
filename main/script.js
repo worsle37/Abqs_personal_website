@@ -1,158 +1,175 @@
-// 初始化变量
-const dragElement = document.getElementById('dragElement');
-const referenceElement = document.querySelector('.search-container'); // 参考元素（搜索框容器）
-let isDragging = false;
-let velocityX = 0, velocityY = 0; 
-let lastX = 0, lastY = 0; 
-const friction = 0.92; 
-const springStiffness = 0.15; 
-
-// 修正：修复HTML中form标签闭合错误（原代码中<form>重复闭合）
-// 实际使用时请检查HTML：<form class="search-form" id="searchForm">...</form> 确保正确闭合
-
-
-// ==================== 核心：初始位置 & 动态更新 ====================
-function setButtonPosition() {
-    if (!referenceElement || !dragElement) return; // 确保元素存在
-
-    // 获取参考元素和按钮的尺寸/位置
-    const refRect = referenceElement.getBoundingClientRect();
-    const buttonRect = dragElement.getBoundingClientRect();
-
-    // 计算按钮目标位置（参考元素右侧1px，垂直居中对齐）
-    const targetLeft = refRect.right + 30; // 参考元素右侧 + 1px
-    const targetTop = (refRect.top + (refRect.height - buttonRect.height) / 2)+18; // 垂直居中
-
-    // 转换为相对于视口的坐标（按钮是绝对定位，直接用视口坐标）
-    dragElement.style.left = `${targetLeft}px`;
-    dragElement.style.top = `${targetTop}px`;
-
-    // 边界保护：避免按钮超出视口右侧或底部
-    const maxLeft = window.innerWidth - buttonRect.width;
-    const maxTop = window.innerHeight - buttonRect.height;
-    dragElement.style.left = `${Math.min(Math.max(targetLeft, 0), maxLeft)}px`;
-    dragElement.style.top = `${Math.min(Math.max(targetTop, 0), maxTop)}px`;
-}
-
-// 页面加载后初始化位置
-window.addEventListener('DOMContentLoaded', setButtonPosition);
-
-// 窗口缩放/参考元素尺寸变化时更新位置
-window.addEventListener('resize', setButtonPosition);
-new ResizeObserver(setButtonPosition).observe(referenceElement); // 监听搜索框尺寸变化
-
-
-// ==================== 拖动交互逻辑（保留原有功能） ====================
-dragElement.addEventListener('mousedown', startDrag);
-dragElement.addEventListener('touchstart', startDrag);
-
-function startDrag(e) {
-    isDragging = true;
-    velocityX = 0;
-    velocityY = 0;
-    const event = e.touches ? e.touches[0] : e; 
-    const rect = dragElement.getBoundingClientRect();
-    const offsetX = event.clientX - rect.left; // 鼠标到按钮左边缘的偏移
-    const offsetY = event.clientY - rect.top;  // 鼠标到按钮上边缘的偏移
-    lastX = event.clientX;
-    lastY = event.clientY;
-
-    // 拖动时更新位置
-    document.addEventListener('mousemove', drag);
-    document.addEventListener('touchmove', drag, { passive: false });
-
-    // 拖动结束时停止
-    document.addEventListener('mouseup', stopDrag);
-    document.addEventListener('touchend', stopDrag);
-
-    function drag(e) {
-        const event = e.touches ? e.touches[0] : e;
-        const currentX = event.clientX;
-        const currentY = event.clientY;
-
-        // 计算速度（当前帧位移）
-        velocityX = currentX - lastX;
-        velocityY = currentY - lastY;
-
-        // 更新按钮位置（减去初始偏移，保持鼠标在按钮内的相对位置）
-        dragElement.style.left = `${currentX - offsetX}px`;
-        dragElement.style.top = `${currentY - offsetY}px`;
-
-        // 更新上一帧坐标
-        lastX = currentX;
-        lastY = currentY;
-
-        e.preventDefault(); // 阻止触摸滚动
+document.addEventListener('DOMContentLoaded', function() {
+    // ==================== 拖拽HOME按钮功能 ====================
+    const dragElement = document.getElementById('dragElement');
+    const referenceElement = document.querySelector('.search-container');
+    let isDragging = false;
+    let velocityX = 0, velocityY = 0; 
+    let lastX = 0, lastY = 0; 
+    const friction = 0.92; 
+    const springStiffness = 0.15;
+    let dragStartTime = 0; // 记录拖动开始时间
+    // 设置按钮位置
+    function setButtonPosition() {
+        if (!referenceElement || !dragElement) return;
+        const refRect = referenceElement.getBoundingClientRect();
+        const buttonRect = dragElement.getBoundingClientRect();
+        const targetLeft = refRect.right + 30;
+        const targetTop = (refRect.top + (refRect.height - buttonRect.height) / 2) + 18;
+        dragElement.style.left = `${targetLeft}px`;
+        dragElement.style.top = `${targetTop}px`;
+        const maxLeft = window.innerWidth - buttonRect.width;
+        const maxTop = window.innerHeight - buttonRect.height;
+        dragElement.style.left = `${Math.min(Math.max(targetLeft, 0), maxLeft)}px`;
+        dragElement.style.top = `${Math.min(Math.max(targetTop, 0), maxTop)}px`;
     }
-
-    function stopDrag() {
-        isDragging = false;
-        document.removeEventListener('mousemove', drag);
-        document.removeEventListener('touchmove', drag);
-        document.removeEventListener('mouseup', stopDrag);
-        document.removeEventListener('touchend', stopDrag);
-        requestAnimationFrame(physicsUpdate); // 启动物理模拟（惯性滑动）
+    // 初始化位置
+    setButtonPosition();
+    window.addEventListener('resize', setButtonPosition);
+    if (referenceElement) {
+        new ResizeObserver(setButtonPosition).observe(referenceElement);
     }
-}
-
-// 物理模拟（惯性滑动 + 边界回弹）
-function physicsUpdate() {
-    if (isDragging) return; 
-
-    // 速度衰减
-    velocityX *= friction;
-    velocityY *= friction;
-
-    // 计算新位置
-    let newLeft = parseFloat(dragElement.style.left) + velocityX;
-    let newTop = parseFloat(dragElement.style.top) + velocityY;
-
-    // 边界检测（视口边界）
-    const maxLeft = window.innerWidth - dragElement.offsetWidth;
-    const maxTop = window.innerHeight - dragElement.offsetHeight;
-
-    // 左/右边界回弹
-    if (newLeft < 0 || newLeft > maxLeft) {
-        velocityX *= -springStiffness; // 速度反向并衰减
-        newLeft = Math.max(0, Math.min(newLeft, maxLeft)); // 限制在边界内
-    }
-
-    // 上/下边界回弹
-    if (newTop < 0 || newTop > maxTop) {
-        velocityY *= -springStiffness; 
-        newTop = Math.max(0, Math.min(newTop, maxTop)); 
-    }
-
-    // 更新位置
-    dragElement.style.left = `${newLeft}px`;
-    dragElement.style.top = `${newTop}px`;
-
-    // 速度足够小时停止模拟
-    if (Math.abs(velocityX) < 0.1 && Math.abs(velocityY) < 0.1) {
+    // 拖动事件处理
+    dragElement.addEventListener('mousedown', startDrag);
+    dragElement.addEventListener('touchstart', startDrag);
+    function startDrag(e) {
+        dragStartTime = Date.now(); // 记录拖动开始时间
+        isDragging = true;
         velocityX = 0;
         velocityY = 0;
-        return;
+        const event = e.touches ? e.touches[0] : e; 
+        const rect = dragElement.getBoundingClientRect();
+        const offsetX = event.clientX - rect.left;
+        const offsetY = event.clientY - rect.top;
+        lastX = event.clientX;
+        lastY = event.clientY;
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('touchmove', drag, { passive: false });
+        document.addEventListener('mouseup', stopDrag);
+        document.addEventListener('touchend', stopDrag);
+        function drag(e) {
+            const event = e.touches ? e.touches[0] : e;
+            const currentX = event.clientX;
+            const currentY = event.clientY;
+            velocityX = currentX - lastX;
+            velocityY = currentY - lastY;
+            dragElement.style.left = `${currentX - offsetX}px`;
+            dragElement.style.top = `${currentY - offsetY}px`;
+            lastX = currentX;
+            lastY = currentY;
+            e.preventDefault();
+        }
+        function stopDrag() {
+            isDragging = false;
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('touchmove', drag);
+            document.removeEventListener('mouseup', stopDrag);
+            document.removeEventListener('touchend', stopDrag);
+            requestAnimationFrame(physicsUpdate);
+        }
     }
-
-    requestAnimationFrame(physicsUpdate);
-}
-//////////////////上面是可拖拽//////////////////////////////////
-
-const cardstyleone=document.querySelector(".cardstyleone")
-
-function cardone(url) {
-    //我不行了，这里还要写个放大代码css好累
-    setTimeout(()=>{
-        window.location.href = url; 
-    },300);
-    // 这行代码会让浏览器跳转到指定URL
-}
-
-
-
-
-
-
-
-
-
+    // 物理模拟（惯性滑动 + 边界回弹）
+    function physicsUpdate() {
+        if (isDragging) return; 
+        velocityX *= friction;
+        velocityY *= friction;
+        let newLeft = parseFloat(dragElement.style.left) + velocityX;
+        let newTop = parseFloat(dragElement.style.top) + velocityY;
+        const maxLeft = window.innerWidth - dragElement.offsetWidth;
+        const maxTop = window.innerHeight - dragElement.offsetHeight;
+        if (newLeft < 0 || newLeft > maxLeft) {
+            velocityX *= -springStiffness;
+            newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+        }
+        if (newTop < 0 || newTop > maxTop) {
+            velocityY *= -springStiffness; 
+            newTop = Math.max(0, Math.min(newTop, maxTop)); 
+        }
+        dragElement.style.left = `${newLeft}px`;
+        dragElement.style.top = `${newTop}px`;
+        if (Math.abs(velocityX) < 0.1 && Math.abs(velocityY) < 0.1) {
+            velocityX = 0;
+            velocityY = 0;
+            return;
+        }
+        requestAnimationFrame(physicsUpdate);
+    }
+    // ==================== History API功能 ====================
+    const contentArea = document.getElementById('mainContent');
+    const loader = document.getElementById('loader');
+    const currentPageElement = document.getElementById('currentPage');
+    // 事件委托处理卡片和HOME按钮点击
+    document.body.addEventListener('click', function(e) {
+        // 检查点击的是否是卡片
+        const card = e.target.closest('[class^="cardstyle"]');
+        if (card && card.dataset.page) {
+            e.preventDefault();
+            navigateToPage(card.dataset.page);
+        }
+        // 检查点击的是否是HOME按钮
+        const homeButton = e.target.closest('#dragElement');
+        if (homeButton && homeButton.dataset.page) {
+            // 计算点击持续时间
+            const clickDuration = Date.now() - dragStartTime;
+            // 只有快速点击(短于200ms)才执行跳转
+            if (clickDuration < 100 && !isDragging) {
+                e.preventDefault();
+                navigateToPage(homeButton.dataset.page);
+            }
+        }
+    });
+    // 处理浏览器前进/后退
+    window.addEventListener('popstate', function(event) {
+        if (event.state && event.state.page) {
+            loadPageContent(event.state.page);
+        } else {
+            loadPageContent('index.html');
+        }
+    });
+    // 导航到指定页面
+    function navigateToPage(page) {
+        // 添加历史记录
+        history.pushState({ page }, '', page);
+        // 加载页面内容
+        loadPageContent(page);
+    }
+    // 加载页面内容
+    function loadPageContent(page) {
+        // 显示加载动画
+        contentArea.classList.add('fade-out');
+        loader.style.display = 'block';
+        // 模拟AJAX请求 - 实际应用中替换为真实请求
+        setTimeout(() => {
+            // 更新页面标题
+            if (page === 'index.html') {
+                document.getElementById('artworktitle').textContent = "Abq's Art Collection ❤";
+                currentPageElement.textContent = "首页";
+            } else {
+                const pageNum = page.replace('.html', '');
+                document.getElementById('artworktitle').textContent = `查看作品 ${pageNum} ❤`;
+                currentPageElement.textContent = `作品 ${pageNum}`;
+            }
+            // 隐藏加载动画
+            loader.style.display = 'none';
+            contentArea.classList.remove('fade-out');
+        }, 600);
+    }
+    // 防止搜索表单提交
+    document.getElementById('searchForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const searchTerm = document.getElementById('searchInput').value;
+        if (searchTerm) {
+            // 模拟搜索结果
+            const randomPage = Math.floor(Math.random() * 6) + 1;
+            navigateToPage(`0${randomPage}.html`);
+        } else {
+            alert('请输入搜索内容');
+        }
+    });
+    // 初始状态处理
+    if (location.pathname !== '/') {
+        const page = location.pathname.split('/').pop();
+        if (page && page.match(/0[1-6]\.html/)) {
+            loadPageContent(page);
+        }
+    }
+});
