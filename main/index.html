@@ -8,98 +8,99 @@
     <title>Abq's art book website</title>
 </head>
 <body>
-    <!-- 加载指示器 -->
-    <div class="loader" id="loader"></div>
-    <!-- 当前页面指示器 -->
-    <div class="current-page">当前页面: <span id="currentPage">首页</span></div>
-
-    <header>
-        <!-- 包裹文字 -->
-        <div class="subtitle">
-            <p id="artworktitle">❤</p>
-        </div>
-
-        <!-- 蓝色背景容器（包裹图片） -->
-        <div class="deepbg">
- 
-            <img class="bgpage" src="/pts/0.png" alt="白点">
-            <img class="indexpage" src="/pts/1(2).png" alt="艺术作品"> <!-- main图片 -->
-        </div>
-
-        <!-- 底座线 -->
-        <div class="lin">
-
-            <!-- 底座花线Png -->
-            <img src="/pts/Line.png"  alt="线图">
-        </div> 
-        
-        <!-- 搜索框 -->
-        <div class="search-container">
-            <input 
-            type="search" 
-            class="search-input" 
-            placeholder="输入时间查找对应作品..." 
-            id="searchInput"
-            autocomplete="off"
-            >
-            <form class="search-form" id="searchForm"></form>
-            <button style="font-weight:bold;" type="submit" class="search-button">FIND</button>
-            <div class="search-line"></div>
-        </div> 
-    </header>
-    
-    
-    <content id="mainContent">       
-        <div class="regionone">
-            <div>
-            <img class="title-write" src="/pts/title.png" alt="title_">
-            </div>
-
-            <!-- 样式1一 -->
-               
-            <div class="cardstyle1" data-page="01.html">
-                <img src="/pts/6.png" alt="1">    
-            </div>
-                
-            <!-- 样式1二 -->
-            <div class="cardstyle2" data-page="01.html">
-                <img src="/pts/2-1.png" alt="2">
-            </div>
-            <!-- 样式1三 -->
-            <div class="cardstyle3" data-page="01.html">
-                <img src="/pts/3-1.png" alt="3">
-            </div>
-        </div>
-
-        <div class="regiontwo">
-                
-            <div>
-            <img src="/pts/6-2.png" alt="" class="clock-line rotate-animation">
-            </div>
-
-            <!-- 样式2一 -->
-            <div class="cardstyle4" data-page="01.html">
-                <img src="/pts/2.png" alt="4">    
-            </div>
-            <!-- 样式2二 -->
-            <div class="cardstyle5" data-page="01.html">
-                <img src="/pts/4.png" alt="5">
-            </div>
-            <!-- 样式2三 -->
-            <div class="cardstyle6" data-page="01.html">
-                <img src="/pts/6-1.png" alt="6">
-            </div>
-        </div>
-
-            <div class="regiononepf">
-
-            </div>
-    </content>
-
-
     <!-- 共有元素 -->
+    <!-- 加载指示器 -->    <!-- 当前页面指示器 -->
+    <div class="loader" id="loader"></div>
+    <div class="current-page">当前页面: <span id="currentPage">首页</span></div> 
     <div class="draggable" data-page="index.html" id="dragElement"><p>HOME‾◡◝</p></div>
 
+    <!-- !!!!!!!!!这容器动态改变页面!!!!!!!!!!!! -->
+    <div id="pageContainer">
+        <header>
+            <!-- 包裹文字 -->
+            <div class="subtitle">
+                <p id="artworktitle">❤</p>
+            </div>
+
+            <!-- 蓝色背景容器（包裹图片） -->
+            <div class="deepbg">
+    
+                <img class="bgpage" src="/pts/0.png" alt="白点">
+                <img class="indexpage" src="/pts/1(2).png" alt="艺术作品"> <!-- main图片 -->
+            </div>
+
+            <!-- 底座线 -->
+            <div class="lin">
+
+                <!-- 底座花线Png -->
+                <img src="/pts/Line.png"  alt="线图">
+            </div> 
+            
+            <!-- 搜索框 -->
+            <div class="search-container">
+                <input 
+                type="search" 
+                class="search-input" 
+                placeholder="输入时间查找对应作品..." 
+                id="searchInput"
+                autocomplete="off"
+                >
+                <form class="search-form" id="searchForm"></form>
+                <button style="font-weight:bold;" type="submit" class="search-button">FIND</button>
+                <div class="search-line"></div>
+            </div> 
+        </header>
+        
+        
+        <content id="mainContent">       
+            <div class="regionone">
+                <div>
+                <img class="title-write" src="/pts/title.png" alt="title_">
+                </div>
+
+                <!-- 样式1一 -->
+                
+                <div class="cardstyle1" data-page="01.html">
+                    <img src="/pts/6.png" alt="1">    
+                </div>
+                    
+                <!-- 样式1二 -->
+                <div class="cardstyle2" data-page="01.html">
+                    <img src="/pts/2-1.png" alt="2">
+                </div>
+                <!-- 样式1三 -->
+                <div class="cardstyle3" data-page="01.html">
+                    <img src="/pts/3-1.png" alt="3">
+                </div>
+            </div>
+
+            <div class="regiontwo">
+                    
+                <div>
+                <img src="/pts/6-2.png" alt="" class="clock-line rotate-animation">
+                </div>
+
+                <!-- 样式2一 -->
+                <div class="cardstyle4" data-page="01.html">
+                    <img src="/pts/2.png" alt="4">    
+                </div>
+                <!-- 样式2二 -->
+                <div class="cardstyle5" data-page="01.html">
+                    <img src="/pts/4.png" alt="5">
+                </div>
+                <!-- 样式2三 -->
+                <div class="cardstyle6" data-page="01.html">
+                    <img src="/pts/6-1.png" alt="6">
+                </div>
+            </div>
+
+                <div class="regiononepf">
+
+                </div>
+        </content>
+
+    </div>
+   
 </body>
 
 <script src="script.js"></script>

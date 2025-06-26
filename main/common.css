@@ -1,3 +1,62 @@
+* {
+    margin: 0;
+    padding: 0; /* 修正：padding 用像素或无单位，0% 无意义 */
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+/* 禁止元素拖动 */
+img, button, input, div {
+    -webkit-user-drag: none;
+    -moz-user-drag: none;
+    -ms-user-drag: none;
+    -user-drag: none;
+    pointer-events: auto; /* 保持元素交互性 */
+}
+body{
+    background-color:#f0f4ff;
+    
+}
+.header{
+    display: flex;
+    position: relative;
+    height: 300px;
+    min-width: 100vw; /* 最小宽度撑满视口（避免缩放时父容器收缩）*/
+    
+    transition: opacity 0.3s ease;
+}
+.loader {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: #163dd6;
+    animation: spin 1s ease-in-out infinite;
+    z-index: 1000;
+}
+@keyframes spin {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+/* 内容切换动画 */
+content {
+    position: relative;
+    transition: opacity 0.3s ease;
+}
+
+.fade-out {
+    opacity: 0;
+}
+
+
+
+
 /* 可拖动的 */
 .draggable {
     z-index: 100;

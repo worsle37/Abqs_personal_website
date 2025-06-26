@@ -1,3 +1,10 @@
+// 在common.js开头添加
+if (window.dragInitialized) return;
+window.dragInitialized = true;
+
+// 原有的common.js代码...
+
+
 const dragElement = document.getElementById('dragElement');
 let isDragging = false;
 let velocityX = 0, velocityY = 0; 
