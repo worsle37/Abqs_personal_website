@@ -119,20 +119,22 @@
     
 
     // 在script.js中添加
+    // 确保拖拽功能正确初始化
     function initDragFunctionality() {
         const dragElement = document.getElementById('dragElement');
         if (!dragElement) return;
-
-        // 移除旧事件监听器
-        dragElement.removeEventListener('mousedown', startDrag);
-        dragElement.removeEventListener('touchstart', startDrag);
-
-        // 添加新事件监听器
-        dragElement.addEventListener('mousedown', startDrag);
-        dragElement.addEventListener('touchstart', startDrag);
-
-        // 重置位置
-        setButtonPosition();
+        
+        // 确保元素存在且未初始化
+        if (!dragElement._dragInitialized) {
+            dragElement._dragInitialized = true;
+            
+            // 重置位置
+            setButtonPosition();
+            
+            // 添加事件监听器
+            dragElement.addEventListener('mousedown', startDrag);
+            dragElement.addEventListener('touchstart', startDrag);
+        }
     }
 
 
@@ -186,8 +188,8 @@
  // script.js
 // ...原有代码保持不变...
 
+    // 修改后的 loadPageContent 函数
     function loadPageContent(page) {
-        // 显示加载动画
         loader.style.display = 'block';
         document.getElementById('pageContainer').classList.add('fade-out');
 
@@ -197,22 +199,12 @@
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
 
-                // 获取内容片段
-                let pageContent = "";
-                const contentContainer = doc.querySelector('.artwork-page');
-
-                if (contentContainer) {
-                    pageContent = contentContainer.innerHTML;
-                } else {
-                    // 回退方案
-                    const bodyContent = doc.body.cloneNode(true);
-                    const scripts = bodyContent.querySelectorAll('script');
-                    scripts.forEach(script => script.remove());
-                    pageContent = bodyContent.innerHTML;
-                }
+                // 只提取页面内容区域，不加载整个结构
+                const contentContainer = doc.getElementById('pageContainer');
+                let pageContent = contentContainer ? contentContainer.innerHTML : "";
 
                 setTimeout(() => {
-                    // 更新内容
+                    // 更新内容区域
                     document.getElementById('pageContainer').innerHTML = pageContent;
 
                     // 更新页面指示器
@@ -236,7 +228,7 @@
             });
     }
 
-        // ...其余代码保持不变...
+    // ...其余代码保持不变...
 
     // 防止搜索表单提交
     document.getElementById('searchForm').addEventListener('submit', function(e) {
