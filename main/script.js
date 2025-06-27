@@ -1,7 +1,6 @@
  document.addEventListener('DOMContentLoaded', function() {
     // ==================== 拖拽HOME按钮功能 ====================
     const dragElement = document.getElementById('dragElement');
-    const referenceElement = document.querySelector('.search-container');
     let isDragging = false;
     let velocityX = 0, velocityY = 0; 
     let lastX = 0, lastY = 0; 
@@ -9,32 +8,22 @@
     const springStiffness = 0.15;
     let dragStartTime = 0; // 记录拖动开始时间
     
-    // 设置按钮位置
+   // 设置自定义位置 (80%, 20%)
     function setButtonPosition() {
-        if (!referenceElement || !dragElement) return;
+        if (!dragElement) return;
         
-        const refRect = referenceElement.getBoundingClientRect();
         const buttonRect = dragElement.getBoundingClientRect();
-        
-        const targetLeft = refRect.right + 30;
-        const targetTop = (refRect.top + (refRect.height - buttonRect.height) / 2) + 18;
+        const targetLeft = window.innerWidth * 0.89 - buttonRect.width / 2;
+        const targetTop = window.innerHeight * 0.1345;
         
         dragElement.style.left = `${targetLeft}px`;
         dragElement.style.top = `${targetTop}px`;
-        
-        const maxLeft = window.innerWidth - buttonRect.width;
-        const maxTop = window.innerHeight - buttonRect.height;
-        dragElement.style.left = `${Math.min(Math.max(targetLeft, 0), maxLeft)}px`;
-        dragElement.style.top = `${Math.min(Math.max(targetTop, 0), maxTop)}px`;
     }
     
     // 初始化位置
     setButtonPosition();
     window.addEventListener('resize', setButtonPosition);
-    if (referenceElement) {
-        new ResizeObserver(setButtonPosition).observe(referenceElement);
-    }
-    
+
     // 拖动事件处理
     dragElement.addEventListener('mousedown', startDrag);
     dragElement.addEventListener('touchstart', startDrag);
