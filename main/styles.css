@@ -24,7 +24,7 @@ body{
     position: relative;
     height: 300px;
     min-width: 100vw; /* 最小宽度撑满视口（避免缩放时父容器收缩）*/
-    
+    overflow: hidden;
     transition: opacity 0.3s ease;
 }
 
@@ -48,7 +48,7 @@ body{
 }
 
 /* 内容切换动画 */
-content {
+.content {
     position: relative;
     transition: opacity 0.3s ease;
 }
@@ -223,6 +223,11 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
     border-radius: 25px;
 }
 
+
+
+
+
+
 /* zhu'ti'zhao'pian */
 .clock-line{
     z-index: 2;
@@ -248,6 +253,9 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
     }
 }
 
+
+
+
 /* 应用动画 */
 .rotate-animation {
     animation: rotate 15s linear infinite; /* 5秒完成一次旋转，循环播放 */
@@ -270,14 +278,103 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
 
 }
 
-.regiononepf{
+
+
+
+/* .regiononepf{
     z-index: 10;
     height: 15px;
     width: 4%;
     max-width:50px ;
     background-color: #d625d0;
   
+} */
+
+
+.regiononepf {
+    z-index: 1;
+    background-color: transparent;
+    position: absolute; /* 脱离文档流 */
+    top: 50%; /* 从父容器顶部向下50% */
+    left: 35%;
+    transform: translateY(-50%); /* 向上移动自身高度的50% */
+    height: 250px;
+    width: 20%;
+    padding: 20px;
+
 }
+/* 这个是子div的class */
+.region-pf {
+    position: absolute;
+    z-index: 0;
+    border-radius: 15px;
+    background-color: #163dd6;
+    transition: all 0.3s ease;
+    transform-origin: center; /* 设置旋转中心点，根据容器高度调整 */
+}
+
+/* 为每个元素设置不同的旋转角度 这个是子div*/
+.regiononepf {
+    z-index: 1;
+    background-color:transparent;
+    position: absolute;
+    top: 50%;
+    left: 40%;
+    transform: translateY(-50%);
+    height: 400px;
+    width: 180px;
+    padding: 20px;
+}
+
+.region-pf {
+    position: absolute;
+    z-index: 0;
+    height: 3.5%;
+    width: 25%;
+    border:8px solid #f0f4ff;
+    background-color: #163dd6;
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+/* 元素正常状态下的位置和旋转 */
+.region-pf:nth-child(1) {
+  --angle: 180deg;
+  --r: 100px;
+  left: calc(68% + var(--r) * cos(var(--angle)));
+  top: calc(15% - var(--r) * sin(var(--angle)));
+}
+
+.region-pf:nth-child(2) {
+  --angle: 202.5deg;
+  --r: 100px;
+  left: calc(65% + var(--r) * cos(var(--angle)));
+  top: calc(18% - var(--r) * sin(var(--angle)));
+  transform: rotate(calc(180deg - var(--angle)));
+}
+
+.region-pf:nth-child(3) {
+  --angle: 225deg;
+  --r: 100px;
+  left: calc(64% + var(--r) * cos(var(--angle)));
+  top: calc(23% - var(--r) * sin(var(--angle)));
+  transform: rotate(calc(180deg - var(--angle)));
+}
+
+
+/* 悬停时仅放大，不旋转 */
+.region-pf:hover {
+  transform: rotate(calc(180deg - var(--angle))) scale(1.45);
+  z-index: 20;
+}
+
+.region-pf:active{
+    transform-origin: 2dvh;
+    transform: scale(0.01) skewX(-50deg);
+}
+
+
+
 .regionone,
 .regiontwo {
     background-color: transparent;
