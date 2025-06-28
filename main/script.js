@@ -136,12 +136,14 @@
     
     // 事件委托处理卡片和HOME按钮点击
     document.body.addEventListener('click', function(e) {
-        // 检查点击的是否是卡片
-        const card = e.target.closest('[class^="cardstyle"]');
+    // 点击跳转逻辑
+        const card = e.target.closest('[class^="cardstyle1"]');
         if (card && card.dataset.page) {
+        
             e.preventDefault();
             navigateToPage(card.dataset.page);
         }
+
         
         // 检查点击的是否是HOME按钮
         const homeButton = e.target.closest('#dragElement');
@@ -243,3 +245,57 @@
     // 初始化脚本
     initScripts();
     });
+
+//time-funtion
+// 时间更新函数（保持原有逻辑不变）
+function updateTime() {
+    const date = new Date();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+
+    const dateString = `${month}-${day}`;
+    const timeString = `${hours}:${minutes}`;
+
+    // 获取所有 cardstyle6 元素
+    const cardstyle6Elements = document.querySelectorAll('.cardstyle6');
+    cardstyle6Elements.forEach(card => {
+        const dateElement = card.querySelector('#date');
+        const timeElement = card.querySelector('#time');
+        if (dateElement && timeElement) {
+            dateElement.innerText = `-${dateString}-`;
+            timeElement.innerText = timeString;
+        }
+    });
+}
+
+// 初始执行一次
+updateTime();
+// 每秒更新
+setInterval(updateTime, 1000);
+
+// 点击显示逻辑
+const cardstyle6Elements = document.querySelectorAll('.cardstyle6');
+cardstyle6Elements.forEach(card => {
+    let hideTimer;
+    card.addEventListener('click', function () {
+        const dateElement = this.querySelector('#date');
+        const timeElement = this.querySelector('#time');
+
+        if (dateElement && timeElement) {
+            // 显示元素
+            dateElement.style.display = 'block';
+            timeElement.style.display = 'block';
+
+            // 清除之前的计时器（如果有）
+            if (hideTimer) clearTimeout(hideTimer);
+
+            // 设置新的计时器，5 秒后隐藏
+            hideTimer = setTimeout(() => {
+                dateElement.style.display = 'none';
+                timeElement.style.display = 'none';
+            }, 5000);
+        }
+    });
+});
