@@ -177,38 +177,38 @@ body{
     width: 10px;
     height: 55px;
     background: linear-gradient(to bottom, #163dd6, #163dd6);
-    border-radius: 50% 50% 60% 40%;
-    box-shadow: 0 0 15px #f0f4ff;
+    border-radius: 0% 50% 60% 100%;
+    box-shadow: 0 0 15px #eaeaea;
     transform-origin: top center;
     z-index: 0;
 }
 
 /* .drop-1 { left: 10%; animation: form-drop 4s infinite; } */
-.drop-2 { left: 5.6vw;top: 190px; animation: form-drop 2s infinite 10s; }
-.drop-3 { left: 5.5vw; top: 180px; animation: form-drop 5s infinite 0.1s; }
+.drop-2 { left: 5.6vw;top: 90px; animation: form-drop 10s infinite 0.1s; }
+.drop-3 { left: 5.5vw; top: 90px; animation: form-drop 50s infinite 0.1s; }
 
 @keyframes form-drop {
     0%, 20% { 
-        transform: scale(0.2) translateY(0); 
+        transform: scale(0.2) translateY(20vh); 
         height: 5px;
         opacity: 0.3;
     }
     40% { 
-        transform: scale(1) translateY(5px); 
+        transform: scale(1) translateY(35vh); 
         height: 18px;
         opacity: 0.8;
     }
     50% { 
-        transform: scale(1.1) translateY(8px); 
+        transform: scale(1.1) translateY(50vh); 
         height: 22px;
         opacity: 1;
     }
     60% { 
-        transform: scale(1) translateY(12px); 
+        transform: scale(1) translateY(80vh); 
         height: 18px;
         opacity: 1;
     }
-    70%, 100% { 
+    100% { 
         transform: scale(0.5) translateY(100vh); 
         opacity: 0.1;
     }
@@ -307,10 +307,10 @@ background: #e0e9ff; /* 背景变深 */
 box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
 }
 .search-line{
-    margin-top: 80px;
-    left: 10%;
+
+
     position: absolute;
-    transform: translateX(-8.5%);
+    transform: translateX(-15%) translateY(800%);
     z-index: 3;
     width: 73%;          /* 占屏幕宽度90%（自适应） */
     max-width: 1500px;  
@@ -318,16 +318,7 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
     background-color: #163dd6;
     border-radius: 25px;
 }
-.search-line-shape {
-    margin-top: 125px;
-    position: absolute;
-    left: 3.5vw;
-    z-index: 5;
-    height: 50px;
-    width: 5vw;
-    background-color: #163dd6;
-    clip-path: polygon(20% 0, 80% 0, 50% 100%);
-}
+
 
 
 /* zhu'ti'zhao'pian */
@@ -336,7 +327,7 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
 .clock-point{
     z-index: 2;
     top:67.5%;
-    left:64.5%;
+    right:31.6%;
     position: absolute;
     width: 150px;
     height: auto;
@@ -348,27 +339,29 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
 
     transition: transform 0.4s ease-in-out; 
 }
+
 .clock-point{
     transform: translateY(-52%)translateX(-5%);
 }
 @keyframes rotate {
     from {
-        transform: translateY(-50%) rotate(0deg);
+        transform: translateY(-50%) rotate(10deg);
     }
     to {
         transform: translateY(-50%) rotate(360deg);
     }
 }
 
-
+.clock-line2{
+    transform: rotate(0deg);
+    top:65.5%;
+}
 
 /* 应用动画 */
-.rotate-animation {
-    animation: rotate 60s linear infinite; /* 5秒完成一次旋转，循环播放 */
+.ClockAnimation1 {
+    animation: rotate 60s linear infinite; /* 60秒完成一次旋转，循环播放 */
 }
-.rotate-animation2 {
-    animation: rotate 3600s linear infinite; /* 5秒完成一次旋转，循环播放 */
-}
+
 .cardstyle1,
 .cardstyle2,
 .cardstyle3,
@@ -388,95 +381,13 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
 }
 
 
-.regiononepf {
-    z-index: 1;
-    background-color: transparent;
-    position: absolute; /* 脱离文档流 */
-    top: 50%; /* 从父容器顶部向下50% */
-    left: 35%;
-    transform: translateY(-50%); /* 向上移动自身高度的50% */
-    height: 250px;
-    width: 20%;
-    padding: 20px;
-
-}
-/* 这个是子div的class */
-.region-pf {
-    position: absolute;
-    z-index: 0;
-    border-radius: 15px;
-    background-color: #163dd6;
-    transition: all 0.3s ease;
-    transform-origin: center; /* 设置旋转中心点，根据容器高度调整 */
-}
-
-/* 为每个元素设置不同的旋转角度 这个是子div*/
-.regiononepf {
-    z-index: 1;
-    background-color:transparent;
-    position: absolute;
-    top: 50%;
-    left: 40%;
-    transform: translateY(-50%);
-    height: 400px;
-    width: 180px;
-    padding: 20px;
-}
-
-.region-pf {
-    position: absolute;
-    z-index: 0;
-    height: 3.5%;
-    width: 25%;
-    border:8px solid #f0f4ff;
-    background-color: #163dd6;
-    transition: all 0.3s ease;
-    transform-origin: center;
-}
-
-/* 元素正常状态下的位置和旋转 */
-.region-pf:nth-child(1) {
-  --angle: 180deg;
-  --r: 100px;
-  left: calc(68% + var(--r) * cos(var(--angle)));
-  top: calc(15% - var(--r) * sin(var(--angle)));
-}
-
-.region-pf:nth-child(2) {
-  --angle: 202.5deg;
-  --r: 100px;
-  left: calc(65% + var(--r) * cos(var(--angle)));
-  top: calc(18% - var(--r) * sin(var(--angle)));
-  transform: rotate(calc(180deg - var(--angle)));
-}
-
-.region-pf:nth-child(3) {
-  --angle: 225deg;
-  --r: 100px;
-  left: calc(64% + var(--r) * cos(var(--angle)));
-  top: calc(23% - var(--r) * sin(var(--angle)));
-  transform: rotate(calc(180deg - var(--angle)));
-}
-
-
-/* 悬停时仅放大，不旋转 */
-.region-pf:hover {
-  transform: rotate(calc(180deg - var(--angle))) scale(1.45);
-  z-index: 20;
-}
-
-.region-pf:active{
-    transform-origin: 2dvh;
-    transform: scale(0.01) skewX(-50deg);
-}
-
 .regionnumber{
     z-index: 1;
     background-color: transparent;
     position: absolute; /* 脱离文档流 */
     top: 50%; /* 从父容器顶部向下50% */
     left: 52%;
-    transform: translateY(-50%); /* 向上移动自身高度的50% */
+    transform: translateY(-45%) translateX(-5%); /* 向上移动自身高度的50% */
     height: 250px;
     width: 35%;
     padding: 20px;
@@ -513,8 +424,9 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
     width: 90%;
     max-width: 1500px;
     margin: 60px auto 0;
-    margin-left: 10%;
+    margin-left: auto;
     display: flex;
+    padding:0 10% ;
     
 
     position: relative;
@@ -530,7 +442,7 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
     position: absolute; /* 脱离文档流 */
     bottom: 1; /* 贴容器底部 */
     left: 44.9%; /* 水平居中 */
-    transform: translateX(-50%); /* 精确居中 */
+    transform: translateX(-47%); /* 精确居中 */
     z-index: 2; /* 层级低于其他卡片（其他卡片默认z-index为auto=0） */
     /* 可根据需要调整具体位置 */
  
@@ -541,8 +453,9 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
     background-color: transparent;
     height: 100%;
     width: 30%;
-    border-radius: 16px;
+    border-radius: 10ch;
     border: 2px solid #163dd6;
+    
 
 }
 
@@ -592,7 +505,7 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
     background-color:transparent;
     height: 100%;
     width: 30%;
-    border-radius: 5ch;
+    border-radius: 15ch;
     border: 2px solid #163dd6;
 
     box-shadow:none;
@@ -605,7 +518,7 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
     background-color:transparent;
     height: 100%;
     width: 30%;
-    border-radius: 5ch;
+    border-radius: 15ch;
     border: 10px solid #a7bcf7;
     
     box-shadow:none;
@@ -613,11 +526,11 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
     clip-path: polygon(100% 100%, 0% 100%, 100% 0%); /* 三角形路径：顶点(50%顶部)，底边(左右100%底部) */  
 }
 .cardstyle6 {
-    margin-left: 15%;
+    margin-left: 13%;
     background-color: transparent;
     height: 100%;
     width: 30%;
-    border-radius: 16px;
+    border-radius: 10ch;
     border: 0px solid #ffffff;
     
 }
@@ -637,7 +550,7 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
     height: auto;
     object-fit: cover; /* 关键：覆盖整个容器，可能会裁剪图片 */
     border-radius: 16px; /* 保持圆角与容器一致 */
-    opacity:0.8;
+    opacity:0.9;
 
     transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);   
 }
@@ -650,6 +563,7 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
     width: 555px;
     opacity: 1;
     transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+    pointer-events: none;
 }
 
 .cardstyle2 img{

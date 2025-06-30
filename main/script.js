@@ -156,7 +156,17 @@ document.addEventListener('DOMContentLoaded', function() {
         
             const dateString = `${month}-${day}`;
             const timeString = `${hours}:${minutes}`;
-        
+            
+            // //试图同步动画
+            // const clockline2 = document.querySelector(".clock-line2");
+            // if(hours>12){
+            //     const nowHours = hours-12;
+            // }
+            // else{nowHours=hours}
+            // const nowDeg = nowHours*30-90;
+            // clockline2.style.transform = `rotate(${nowDeg}deg)`;
+
+
             // 获取所有 cardstyle6 元素
             const cardstyle6Elements = document.querySelectorAll('.cardstyle6');
             cardstyle6Elements.forEach(card => {
@@ -167,6 +177,27 @@ document.addEventListener('DOMContentLoaded', function() {
                     timeElement.innerText = timeString;
                 }
             });
+
+            const clockline2 = document.querySelector(".clock-line2");
+            if(clockline2) {
+                // 将字符串转为数字
+                const hoursNum = parseInt(hours, 10);
+                
+                // 在外部作用域声明变量
+                let nowHours = hoursNum;
+                
+                // 处理12小时制
+                if(hoursNum > 12) {
+                    nowHours = hoursNum - 12;
+                } else if(hoursNum === 0) {
+                    nowHours = 12; // 处理午夜0点
+                }
+                
+                // 计算角度：每小时30度，减去90度（初始位置在12点）
+                const nowDeg = nowHours * 30 - 90;
+                clockline2.style.transform = `rotate(${nowDeg}deg)`;
+            }
+
         }
         
         // 初始

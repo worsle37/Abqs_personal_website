@@ -3,116 +3,485 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>树枝水滴核心动画</title>
+    <title>动态时钟 - Abq's Art Book</title>
     <style>
-        
-        .drops-container {
-            position: absolute;
-            top: 20%;
-            width: 300px;
-            height: 80vh;
+        * {
+            margin: 0;
+            padding: 0;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            box-sizing: border-box;
         }
         
-        .drop {
-            position: absolute;
-            width: 12px;
-            height: 18px;
-            background: linear-gradient(to bottom, rgba(64, 164, 223, 0.9), rgba(33, 150, 243, 0.95));
-            border-radius: 50% 50% 60% 40%;
-            box-shadow: 0 0 15px rgba(33, 150, 243, 0.7);
-            transform-origin: top center;
-            z-index: 2;
+        body {
+            background-color: #f0f4ff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
         
-        .drop-1 { left: 50px; animation: form-drop 4s infinite; }
-        .drop-2 { left: 150px; animation: form-drop 5s infinite 1.2s; }
-        .drop-3 { left: 250px; animation: form-drop 4.5s infinite 0.7s; }
-        
-        @keyframes form-drop {
-            0%, 20% { 
-                transform: scale(0.2) translateY(0); 
-                height: 5px;
-                opacity: 0.3;
-            }
-            40% { 
-                transform: scale(1) translateY(5px); 
-                height: 18px;
-                opacity: 1;
-            }
-            50% { 
-                transform: scale(1.1) translateY(8px); 
-                height: 22px;
-                opacity: 1;
-            }
-            60% { 
-                transform: scale(1) translateY(12px); 
-                height: 18px;
-                opacity: 1;
-            }
-            70%, 100% { 
-                transform: scale(0.5) translateY(80vh); 
-                opacity: 0;
-            }
-        }
-        
-        .ripple {
-            position: absolute;
-            width: 10px;
-            height: 5px;
-            background: rgba(33, 150, 243, 0.4);
-            border-radius: 50%;
-            opacity: 0;
-            z-index: 1;
-        }
-        
-        .ripple-1 { 
-            left: 50px; 
-            bottom: 20%; 
-            animation: ripple-effect 4s infinite 2.2s; 
-        }
-        .ripple-2 { 
-            left: 150px; 
-            bottom: 20%; 
-            animation: ripple-effect 5s infinite 2.8s; 
-        }
-        .ripple-3 { 
-            left: 250px; 
-            bottom: 20%; 
-            animation: ripple-effect 4.5s infinite 2.5s; 
-        }
-        
-        @keyframes ripple-effect {
-            0% { transform: scale(0.5); opacity: 0; }
-            50% { transform: scale(8); opacity: 0.6; }
-            100% { transform: scale(16); opacity: 0; }
-        }
-        
-        .info {
-            position: absolute;
-            bottom: 10px;
-            color: rgba(255, 255, 255, 0.7);
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-            text-align: center;
+        .container {
+            max-width: 1200px;
             width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(22, 61, 214, 0.2);
+            overflow: hidden;
+        }
+        
+        header {
+            background: #163dd6;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .subtitle {
+            font-style: italic;
+            opacity: 0.9;
+            font-size: 1.2rem;
+        }
+        
+        .content {
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        
+        .clock-container {
+            background: #f0f4ff;
+            border-radius: 20px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: inset 0 0 15px rgba(22, 61, 214, 0.1);
+        }
+        
+        .clock-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .clock-header h2 {
+            color: #163dd6;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .clock-header p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .regiontwoclock {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 10px solid #e0e9ff;
+        }
+        
+        .clock-center {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #163dd6;
+            border-radius: 50%;
+            z-index: 10;
+        }
+        
+        .clock-line {
+            position: absolute;
+            width: 3px;
+            height: 120px;
+            background: #ff6b6b;
+            border-radius: 10px;
+            transform-origin: bottom center;
+            bottom: 50%;
+            left: calc(50% - 1.5px);
+            z-index: 5;
+            box-shadow: 0 0 5px rgba(255, 107, 107, 0.5);
+        }
+        
+        .clock-line2 {
+            position: absolute;
+            width: 6px;
+            height: 80px;
+            background: #163dd6;
+            border-radius: 10px;
+            transform-origin: bottom center;
+            bottom: 50%;
+            left: calc(50% - 3px);
+            z-index: 4;
+        }
+        
+        .clock-marks {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .mark {
+            position: absolute;
+            width: 4px;
+            height: 12px;
+            background: #a7bcf7;
+            left: calc(50% - 2px);
+            transform-origin: bottom center;
+        }
+        
+        .digital-clock {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .time-display {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #163dd6;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            background: rgba(22, 61, 214, 0.05);
+            padding: 15px 30px;
+            border-radius: 15px;
+            display: inline-block;
+        }
+        
+        .date-display {
+            font-size: 1.2rem;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .code-section {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border-radius: 15px;
+            padding: 25px;
+            font-family: 'Consolas', monospace;
+            overflow: auto;
+            max-height: 500px;
+        }
+        
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .code-header h3 {
+            color: #d4d4d4;
+            font-size: 1.5rem;
+        }
+        
+        .btn {
+            background: #163dd6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: #0d2da5;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(22, 61, 214, 0.3);
+        }
+        
+        pre {
+            line-height: 1.5;
+            tab-size: 4;
+        }
+        
+        .comment {
+            color: #6a9955;
+        }
+        
+        .keyword {
+            color: #569cd6;
+        }
+        
+        .function {
+            color: #dcdcaa;
+        }
+        
+        .param {
+            color: #9cdcfe;
+        }
+        
+        .explanation {
+            margin-top: 30px;
+            background: rgba(22, 61, 214, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+        }
+        
+        .explanation h3 {
+            color: #163dd6;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .explanation ul {
+            padding-left: 25px;
+        }
+        
+        .explanation li {
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+        
+        .highlight {
+            background: rgba(255, 255, 0, 0.2);
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        footer {
+            background: #163dd6;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 1rem;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 900px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            
+            .clock-container {
+                order: 1;
+            }
         }
     </style>
 </head>
 <body>
-
-    
-    <!-- 水滴容器 -->
-    <div class="drops-container">
-        <div class="drop drop-1"></div>
-        <div class="drop drop-2"></div>
-        <div class="drop drop-3"></div>
+    <div class="container">
+        <header>
+            <h1>时钟指针与时间同步</h1>
+            <p class="subtitle">将时钟指针与当前时间关联的实现方案</p>
+        </header>
         
-        <!-- 涟漪效果 -->
-        <div class="ripple ripple-1"></div>
-        <div class="ripple ripple-2"></div>
-        <div class="ripple ripple-3"></div>
-    </div>
-    
+        <div class="content">
+            <div class="clock-container">
+                <div class="clock-header">
+                    <h2>动态时钟展示</h2>
+                    <p>秒针(红色)和时针(蓝色)根据当前时间实时旋转</p>
+                </div>
+                
+                <div class="regiontwoclock">
+                    <div class="clock-center"></div>
+                    <div class="clock-marks" id="clockMarks"></div>
+                    <div class="clock-line" id="secondHand"></div>
+                    <div class="clock-line2" id="hourHand"></div>
+                </div>
+                
+                <div class="digital-clock">
+                    <div class="time-display" id="timeDisplay">00:00:00</div>
+                    <div class="date-display" id="dateDisplay">2023年1月1日</div>
+                </div>
+            </div>
+            
+            <div class="code-section">
+                <div class="code-header">
+                    <h3>JavaScript 实现代码</h3>
+                    <button class="btn" id="copyBtn">复制代码</button>
+                </div>
+                <pre><code><span class="comment">// 获取时钟元素</span>
+<span class="keyword">const</span> secondHand = document.<span class="function">getElementById</span>(<span class="param">'secondHand'</span>);
+<span class="keyword">const</span> hourHand = document.<span class="function">getElementById</span>(<span class="param">'hourHand'</span>);
+<span class="keyword">const</span> timeDisplay = document.<span class="function">getElementById</span>(<span class="param">'timeDisplay'</span>);
+<span class="keyword">const</span> dateDisplay = document.<span class="function">getElementById</span>(<span class="param">'dateDisplay'</span>);
 
+<span class="comment">// 创建时钟刻度</span>
+<span class="keyword">const</span> clockMarks = document.<span class="function">getElementById</span>(<span class="param">'clockMarks'</span>);
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="param">0</span>; i &lt; <span class="param">12</span>; i++) {
+    <span class="keyword">const</span> mark = document.<span class="function">createElement</span>(<span class="param">'div'</span>);
+    mark.className = <span class="param">'mark'</span>;
+    mark.style.transform = <span class="param">`rotate(${i * 30}deg) translateY(-130px)`</span>;
+    clockMarks.<span class="function">appendChild</span>(mark);
+}
+
+<span class="comment">// 更新时间函数</span>
+<span class="keyword">function</span> <span class="function">updateTime</span>() {
+    <span class="keyword">const</span> now = <span class="keyword">new</span> <span class="function">Date</span>();
+    
+    <span class="comment">// 获取时间组件</span>
+    <span class="keyword">const</span> hours = now.<span class="function">getHours</span>();
+    <span class="keyword">const</span> minutes = now.<span class="function">getMinutes</span>();
+    <span class="keyword">const</span> seconds = now.<span class="function">getSeconds</span>();
+    <span class="keyword">const</span> milliseconds = now.<span class="function">getMilliseconds</span>();
+    
+    <span class="comment">// 计算指针角度（添加平滑过渡）</span>
+    <span class="keyword">const</span> secondsDeg = (seconds + milliseconds / <span class="param">1000</span>) * <span class="param">6</span>; <span class="comment">// 360°/60 = 6°/秒</span>
+    <span class="keyword">const</span> minutesDeg = (minutes + seconds / <span class="param">60</span>) * <span class="param">6</span>; <span class="comment">// 360°/60 = 6°/分</span>
+    <span class="keyword">const</span> hoursDeg = (hours % <span class="param">12</span> + minutes / <span class="param">60</span>) * <span class="param">30</span>; <span class="comment">// 360°/12 = 30°/小时</span>
+    
+    <span class="comment">// 应用旋转</span>
+    secondHand.style.transform = <span class="param">`rotate(${secondsDeg}deg)`</span>;
+    hourHand.style.transform = <span class="param">`rotate(${hoursDeg}deg)`</span>;
+    
+    <span class="comment">// 更新时间显示</span>
+    timeDisplay.textContent = <span class="param">`${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`</span>;
+    
+    <span class="comment">// 更新日期显示</span>
+    <span class="keyword">const</span> options = { year: <span class="param">'numeric'</span>, month: <span class="param">'long'</span>, day: <span class="param">'numeric'</span> };
+    dateDisplay.textContent = now.<span class="function">toLocaleDateString</span>(<span class="param">'zh-CN'</span>, options);
+}
+
+<span class="comment">// 初始更新时间</span>
+<span class="function">updateTime</span>();
+
+<span class="comment">// 每秒更新时间</span>
+<span class="function">setInterval</span>(updateTime, <span class="param">50</span>); <span class="comment">// 每50ms更新一次以获得平滑效果</span></code></pre>
+                
+                <div class="explanation">
+                    <h3>实现原理</h3>
+                    <ul>
+                        <li><span class="highlight">秒针(红色)</span>：每秒旋转6度 (360° ÷ 60 = 6°/秒)</li>
+                        <li><span class="highlight">时针(蓝色)</span>：每小时旋转30度 (360° ÷ 12 = 30°/小时)，每分钟额外旋转0.5度 (30° ÷ 60 = 0.5°/分钟)</li>
+                        <li><span class="highlight">平滑过渡</span>：通过每50毫秒更新一次时间，并计算毫秒级偏移，实现指针的平滑移动</li>
+                        <li><span class="highlight">transform-origin</span>：设置旋转中心点为指针底部，使指针围绕中心点旋转</li>
+                        <li><span class="highlight">刻度标记</span>：通过JS动态生成12个刻度标记，每30度一个</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Abq's Art Book - 时钟指针与时间同步功能实现</p>
+        </footer>
+    </div>
+
+    <script>
+        // 获取时钟元素
+        const secondHand = document.getElementById('secondHand');
+        const hourHand = document.getElementById('hourHand');
+        const timeDisplay = document.getElementById('timeDisplay');
+        const dateDisplay = document.getElementById('dateDisplay');
+        const copyBtn = document.getElementById('copyBtn');
+        
+        // 创建时钟刻度
+        const clockMarks = document.getElementById('clockMarks');
+        for (let i = 0; i < 12; i++) {
+            const mark = document.createElement('div');
+            mark.className = 'mark';
+            mark.style.transform = `rotate(${i * 30}deg) translateY(-130px)`;
+            clockMarks.appendChild(mark);
+        }
+        
+        // 更新时间函数
+        function updateTime() {
+            const now = new Date();
+            
+            // 获取时间组件
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            const milliseconds = now.getMilliseconds();
+            
+            // 计算指针角度（添加平滑过渡）
+            const secondsDeg = (seconds + milliseconds / 1000) * 6; // 360°/60 = 6°/秒
+            const minutesDeg = (minutes + seconds / 60) * 6; // 360°/60 = 6°/分
+            const hoursDeg = (hours % 12 + minutes / 60) * 30; // 360°/12 = 30°/小时
+            
+            // 应用旋转
+            secondHand.style.transform = `rotate(${secondsDeg}deg)`;
+            hourHand.style.transform = `rotate(${hoursDeg}deg)`;
+            
+            // 更新时间显示
+            timeDisplay.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            
+            // 更新日期显示
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            dateDisplay.textContent = now.toLocaleDateString('zh-CN', options);
+        }
+        
+        // 复制代码功能
+        copyBtn.addEventListener('click', () => {
+            const code = `// 获取时钟元素
+const secondHand = document.getElementById('secondHand');
+const hourHand = document.getElementById('hourHand');
+const timeDisplay = document.getElementById('timeDisplay');
+const dateDisplay = document.getElementById('dateDisplay');
+
+// 更新时间函数
+function updateTime() {
+    const now = new Date();
+    
+    // 获取时间组件
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
+    const milliseconds = now.getMilliseconds();
+    
+    // 计算指针角度（添加平滑过渡）
+    const secondsDeg = (seconds + milliseconds / 1000) * 6; // 360°/60 = 6°/秒
+    const hoursDeg = (hours % 12 + minutes / 60) * 30; // 360°/12 = 30°/小时
+    
+    // 应用旋转
+    secondHand.style.transform = \`rotate(\${secondsDeg}deg)\`;
+    hourHand.style.transform = \`rotate(\${hoursDeg}deg)\`;
+    
+    // 更新时间显示
+    timeDisplay.textContent = \`\${String(hours).padStart(2, '0')}:\${String(minutes).padStart(2, '0')}:\${String(seconds).padStart(2, '0')}\`;
+    
+    // 更新日期显示
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    dateDisplay.textContent = now.toLocaleDateString('zh-CN', options);
+}
+
+// 初始更新时间
+updateTime();
+
+// 每秒更新时间
+setInterval(updateTime, 50); // 每50ms更新一次以获得平滑效果`;
+
+            navigator.clipboard.writeText(code)
+                .then(() => {
+                    copyBtn.textContent = '已复制!';
+                    setTimeout(() => {
+                        copyBtn.textContent = '复制代码';
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('复制失败:', err);
+                    alert('复制失败，请手动复制代码');
+                });
+        });
+        
+        // 初始更新时间
+        updateTime();
+        
+        // 每秒更新时间
+        setInterval(updateTime, 50); // 每50ms更新一次以获得平滑效果
+    </script>
 </body>
 </html>
