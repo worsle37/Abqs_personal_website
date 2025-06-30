@@ -166,6 +166,101 @@ body{
 
 
 
+/* maincontent */
+/* maincontent */
+/* maincontent */
+
+
+
+.drop {
+    position: absolute;
+    width: 10px;
+    height: 55px;
+    background: linear-gradient(to bottom, #163dd6, #163dd6);
+    border-radius: 50% 50% 60% 40%;
+    box-shadow: 0 0 15px #f0f4ff;
+    transform-origin: top center;
+    z-index: 0;
+}
+
+/* .drop-1 { left: 10%; animation: form-drop 4s infinite; } */
+.drop-2 { left: 5.6vw;top: 190px; animation: form-drop 2s infinite 10s; }
+.drop-3 { left: 5.5vw; top: 180px; animation: form-drop 5s infinite 0.1s; }
+
+@keyframes form-drop {
+    0%, 20% { 
+        transform: scale(0.2) translateY(0); 
+        height: 5px;
+        opacity: 0.3;
+    }
+    40% { 
+        transform: scale(1) translateY(5px); 
+        height: 18px;
+        opacity: 0.8;
+    }
+    50% { 
+        transform: scale(1.1) translateY(8px); 
+        height: 22px;
+        opacity: 1;
+    }
+    60% { 
+        transform: scale(1) translateY(12px); 
+        height: 18px;
+        opacity: 1;
+    }
+    70%, 100% { 
+        transform: scale(0.5) translateY(100vh); 
+        opacity: 0.1;
+    }
+}
+/* 
+.ripple {
+    position: absolute;
+    width: 10px;
+    height: 5px;
+    background: rgba(33, 150, 243, 0.4);
+    border-radius: 50%;
+    opacity: 0;
+    z-index: 1;
+}
+
+.ripple-1 { 
+    left: 50px; 
+    bottom: 20%; 
+    animation: ripple-effect 4s infinite 2.2s; 
+}
+.ripple-2 { 
+    left: 150px; 
+    bottom: 20%; 
+    animation: ripple-effect 5s infinite 2.8s; 
+}
+.ripple-3 { 
+    left: 250px; 
+    bottom: 20%; 
+    animation: ripple-effect 4.5s infinite 2.5s; 
+}
+
+@keyframes ripple-effect {
+    0% { transform: scale(0.5); opacity: 0; }
+    50% { transform: scale(8); opacity: 0.6; }
+    100% { transform: scale(16); opacity: 0; }
+}
+
+.info {
+    position: absolute;
+    bottom: 10px;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    text-align: center;
+    width: 100%;
+} */
+
+
+
+
+
+
 
 
 /* 1. 搜索容器：独立水平居中 + Flex布局 */
@@ -213,9 +308,9 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
 }
 .search-line{
     margin-top: 80px;
-    margin-left: 25px;
+    left: 10%;
     position: absolute;
-    transform: translateX(-15%);
+    transform: translateX(-8.5%);
     z-index: 3;
     width: 73%;          /* 占屏幕宽度90%（自适应） */
     max-width: 1500px;  
@@ -223,7 +318,16 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
     background-color: #163dd6;
     border-radius: 25px;
 }
-
+.search-line-shape {
+    margin-top: 125px;
+    position: absolute;
+    left: 3.5vw;
+    z-index: 5;
+    height: 50px;
+    width: 5vw;
+    background-color: #163dd6;
+    clip-path: polygon(20% 0, 80% 0, 50% 100%);
+}
 
 
 /* zhu'ti'zhao'pian */
@@ -527,16 +631,27 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
     filter: blur(0);
 }
 /* 修改图片样式 */
-.cardstyle1 img{
-
-    width: 500px;
+.cardstyle1 img:not(.upper-img){
+    z-index: 0;
+    width: 550px;
     height: auto;
     object-fit: cover; /* 关键：覆盖整个容器，可能会裁剪图片 */
     border-radius: 16px; /* 保持圆角与容器一致 */
     opacity:0.8;
 
-    transition: transform 0.4s ease-in-out;   
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);   
 }
+.upper-img{
+    height: auto;
+    object-fit: cover; /* 关键：覆盖整个容器，可能会裁剪图片 */
+    border-radius: 16px; /* 保持圆角与容器一致 */
+    z-index: 1;
+    position: absolute;
+    width: 555px;
+    opacity: 1;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+}
+
 .cardstyle2 img{
     width: 600px;
     height: auto;
@@ -596,7 +711,10 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
     transition: transform 0.4s ease-in-out;   
 }
 
-.cardstyle1 img:hover,
+.cardstyle1 img:hover{
+    transform: rotateZ(-5deg);
+    transform-origin: bottom;
+}
 .cardstyle2 img:hover,
 .cardstyle3 img:hover,
 .cardstyle4 img:hover,
@@ -611,6 +729,10 @@ box-shadow: inset 0 4px 8px rgba(22, 61, 214, 0.2);
 .cardstyle5 img:hover{
     filter: grayscale(100%);
 
+}
+.cardstyle1:hover .upper-img{
+    transform: rotateZ(50deg) translateX(100px);
+    transform-origin: bottom;
 }
 .cardstyle1:active,
 .cardstyle2:active,

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>树枝水滴核心动画</title>
+    <style>
+        
+        .drops-container {
+            position: absolute;
+            top: 20%;
+            width: 300px;
+            height: 80vh;
+        }
+        
+        .drop {
+            position: absolute;
+            width: 12px;
+            height: 18px;
+            background: linear-gradient(to bottom, rgba(64, 164, 223, 0.9), rgba(33, 150, 243, 0.95));
+            border-radius: 50% 50% 60% 40%;
+            box-shadow: 0 0 15px rgba(33, 150, 243, 0.7);
+            transform-origin: top center;
+            z-index: 2;
+        }
+        
+        .drop-1 { left: 50px; animation: form-drop 4s infinite; }
+        .drop-2 { left: 150px; animation: form-drop 5s infinite 1.2s; }
+        .drop-3 { left: 250px; animation: form-drop 4.5s infinite 0.7s; }
+        
+        @keyframes form-drop {
+            0%, 20% { 
+                transform: scale(0.2) translateY(0); 
+                height: 5px;
+                opacity: 0.3;
+            }
+            40% { 
+                transform: scale(1) translateY(5px); 
+                height: 18px;
+                opacity: 1;
+            }
+            50% { 
+                transform: scale(1.1) translateY(8px); 
+                height: 22px;
+                opacity: 1;
+            }
+            60% { 
+                transform: scale(1) translateY(12px); 
+                height: 18px;
+                opacity: 1;
+            }
+            70%, 100% { 
+                transform: scale(0.5) translateY(80vh); 
+                opacity: 0;
+            }
+        }
+        
+        .ripple {
+            position: absolute;
+            width: 10px;
+            height: 5px;
+            background: rgba(33, 150, 243, 0.4);
+            border-radius: 50%;
+            opacity: 0;
+            z-index: 1;
+        }
+        
+        .ripple-1 { 
+            left: 50px; 
+            bottom: 20%; 
+            animation: ripple-effect 4s infinite 2.2s; 
+        }
+        .ripple-2 { 
+            left: 150px; 
+            bottom: 20%; 
+            animation: ripple-effect 5s infinite 2.8s; 
+        }
+        .ripple-3 { 
+            left: 250px; 
+            bottom: 20%; 
+            animation: ripple-effect 4.5s infinite 2.5s; 
+        }
+        
+        @keyframes ripple-effect {
+            0% { transform: scale(0.5); opacity: 0; }
+            50% { transform: scale(8); opacity: 0.6; }
+            100% { transform: scale(16); opacity: 0; }
+        }
+        
+        .info {
+            position: absolute;
+            bottom: 10px;
+            color: rgba(255, 255, 255, 0.7);
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    
+    <!-- 水滴容器 -->
+    <div class="drops-container">
+        <div class="drop drop-1"></div>
+        <div class="drop drop-2"></div>
+        <div class="drop drop-3"></div>
+        
+        <!-- 涟漪效果 -->
+        <div class="ripple ripple-1"></div>
+        <div class="ripple ripple-2"></div>
+        <div class="ripple ripple-3"></div>
+    </div>
+    
+
+</body>
+</html>
